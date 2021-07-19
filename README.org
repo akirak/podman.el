@@ -1,0 +1,11 @@
+* podman.el
+=podman.el= is a package for managing Podman pods from inside Emacs.
+It is a complement to [[https://github.com/Silex/docker.el][docker.el]], which claims to already support both Docker and Podman.
+=podman.el= only provides a functionality related to pods, which is a feature only supported by Podman and not by Docker.
+
+# Add CI badges here
+#+BEGIN_HTML
+#+END_HTML
+** Usage
+=podman-pod-list= command displays a list of pods.
+In the tabular interface, you can start/stop a pod, pause/unpause a pod, remove a pod, etc.
