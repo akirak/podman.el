@@ -36,6 +36,8 @@
 
 (require 'ts)
 (require 'tablist)
+(require 'parse-time)
+(require 'subr-x)
 
 (defgroup podman-pod nil
   "Manage Podman pods."
@@ -134,7 +136,7 @@
                                (kill-buffer buffer)
                                (with-current-buffer podman-pod-buffer
                                  (tablist-revert)))
-                              ((rx bos "exited abnormally")
+                              ((pred (string-match-p "^exited abnormally"))
                                (message "podman failed: %s"
                                         (with-current-buffer buffer
                                           (buffer-string)))
