@@ -38,6 +38,7 @@
 (require 'tablist)
 (require 'parse-time)
 (require 'subr-x)
+(require 'transient)
 
 (defgroup podman-pod nil
   "Manage Podman pods."
@@ -60,15 +61,28 @@
 
 (defvar podman-pod-mode-map
   (let ((m (make-composed-keymap tablist-mode-map)))
+    (define-key m "D" #'podman-pod-rm)
+    (define-key m "I" #'podman-pod-inspect)
     (define-key m "K" #'podman-pod-kill)
+    (define-key m "O" #'podman-pod-stop)
     (define-key m "P" #'podman-pod-pause)
     (define-key m "R" #'podman-pod-restart)
-    (define-key m "D" #'podman-pod-rm)
     (define-key m "S" #'podman-pod-start)
-    (define-key m "O" #'podman-pod-stop)
     (define-key m "U" #'podman-pod-unpause)
-    (define-key m "I" #'podman-pod-inspect)
+    (define-key m "?" #'podman-pod-help)
     m))
+
+(transient-define-prefix podman-pod-help ()
+  "Help transient for podman pods."
+  ["Podman pod help"
+   ("D" "Rm" podman-pod-rm)
+   ("I" "Inspect" podman-pod-inspect)
+   ("K" "Kill" podman-pod-kill)
+   ("O" "Stop" podman-pod-stop)
+   ("P" "Pause" podman-pod-pause)
+   ("R" "Restart" podman-pod-restart)
+   ("S" "Start" podman-pod-start)
+   ("U" "Unpause" podman-pod-unpause)])
 
 (define-derived-mode podman-pod-mode tabulated-list-mode "Podman Pods"
   "Major mode for displaying a list of podman pods."

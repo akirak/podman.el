@@ -4,7 +4,7 @@
 
 ;; Author: Akira Komamura <akira.komamura@gmail.com>
 ;; Version: 0.1
-;; Package-Requires: ((emacs "27.1") (dash "2.18.1") (tablist "1.0") (ts "0.2"))
+;; Package-Requires: ((emacs "27.1") (ts "0.2") (tablist "1.0") (transient "0.3"))
 ;; Keywords: convenience processes
 ;; URL: https://github.com/akirak/podman.el
 
