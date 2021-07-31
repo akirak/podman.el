@@ -144,41 +144,39 @@
                                (with-current-buffer podman-pod-buffer
                                  (tablist-revert))))))))
 
-(defun podman-pod-start ()
-  "Start the pod at point."
-  (interactive)
-  (podman-pod--change-state "start"))
+(defmacro podman-def-change-state-command (state _args docstring)
+  "Define an interactive function to change the pod state.
 
-(defun podman-pod-stop ()
-  "Stop the pod at point."
-  (interactive)
-  (podman-pod--change-state "stop"))
+STATE must be one of the subcommands of \"podman pod\".
 
-(defun podman-pod-restart ()
-  "Restart the pod at point."
-  (interactive)
-  (podman-pod--change-state "restart"))
+DOCSTRING will become the description of the function."
+  (declare (indent function))
+  `(defun ,(intern (format "podman-pod-%s" state)) ()
+     ,docstring
+     (interactive)
+     (podman-pod--change-state ,state)))
 
-(defun podman-pod-pause ()
-  "Pause the pod at point."
-  (interactive)
-  (podman-pod--change-state "pause"))
+(podman-def-change-state-command "start" ()
+  "Start the pod at point.")
 
-(defun podman-pod-unpause ()
-  "Unpause the pod at point."
-  (interactive)
-  (podman-pod--change-state "unpause"))
+(podman-def-change-state-command "stop" ()
+  "Stop the pod at point.")
 
-(defun podman-pod-kill ()
-  "Kill the pod at point."
-  (interactive)
-  (podman-pod--change-state "kill"))
+(podman-def-change-state-command "restart" ()
+  "Restart the pod at point.")
 
-(defun podman-pod-rm ()
-  "Remove the pod at point."
+(podman-def-change-state-command "pause" ()
+  "Pause the pod at point.")
+
+(podman-def-change-state-command "unpause" ()
+  "Unpause the pod at point.")
+
+(podman-def-change-state-command "kill" ()
+  "Kill the pod at point.")
+
+(podman-def-change-state-command "rm" ()
   ;; TODO: Replace this command with a transient interface to support force (-f) option
-  (interactive)
-  (podman-pod--change-state "rm"))
+  "Remove the pod at point.")
 
 (defun podman-pod-inspect ()
   "Inspect the pod at point."
