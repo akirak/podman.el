@@ -167,6 +167,11 @@
   (interactive)
   (podman-pod--change-state "unpause"))
 
+(defun podman-pod-kill ()
+  "Kill the pod at point."
+  (interactive)
+  (podman-pod--change-state "kill"))
+
 (defun podman-pod-rm ()
   "Remove the pod at point."
   ;; TODO: Replace this command with a transient interface to support force (-f) option
