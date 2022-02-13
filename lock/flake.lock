@@ -1,0 +1,112 @@
+{
+  "nodes": {
+    "dash": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1632096711,
+        "narHash": "sha256-oeIUEe5OGgij6IessN6bmS7re5r+D5BlrU4MOsaK3JE=",
+        "owner": "magnars",
+        "repo": "dash.el",
+        "rev": "da167c51e9fd167a48d06c7c0ee8e3ac7abd9718",
+        "type": "github"
+      },
+      "original": {
+        "owner": "magnars",
+        "repo": "dash.el",
+        "type": "github"
+      }
+    },
+    "podman": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1627705018,
+        "narHash": "sha256-SnBO7+sKDSuPfCWqrVQatGr/iPom8EXefbIVREtoZog=",
+        "owner": "akirak",
+        "repo": "podman.el",
+        "rev": "fd88566d3d5e60545028a05bb61715919e7b756d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "akirak",
+        "repo": "podman.el",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "dash": "dash",
+        "podman": "podman",
+        "s": "s",
+        "tablist": "tablist",
+        "transient": "transient",
+        "ts": "ts"
+      }
+    },
+    "s": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1623824393,
+        "narHash": "sha256-F0BrAlsxBskNzkyHriG3yNY+PZ7npYi1x98Ci5yVDAo=",
+        "owner": "magnars",
+        "repo": "s.el",
+        "rev": "08661efb075d1c6b4fa812184c1e5e90c08795a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "magnars",
+        "repo": "s.el",
+        "type": "github"
+      }
+    },
+    "tablist": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1588025158,
+        "narHash": "sha256-/xF2bgnPZ7YsrTV5+nT44bgoZAficNDtXfGbJss+F9s=",
+        "owner": "politza",
+        "repo": "tablist",
+        "rev": "faab7a035ef2258cc4ea2182f67e3aedab7e2af9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "politza",
+        "repo": "tablist",
+        "type": "github"
+      }
+    },
+    "transient": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644606411,
+        "narHash": "sha256-epV9fXFFJgYE5JCDUy4BLv1FP9ThPS0Izi77TNI8MFc=",
+        "owner": "magit",
+        "repo": "transient",
+        "rev": "95145311b8c59ebdada7b3c13c150c056837c698",
+        "type": "github"
+      },
+      "original": {
+        "owner": "magit",
+        "repo": "transient",
+        "type": "github"
+      }
+    },
+    "ts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1628871468,
+        "narHash": "sha256-UdzBCdRVn78nuyeePD2kLBcAyYqrs1uly+BIqin/gYA=",
+        "owner": "alphapapa",
+        "repo": "ts.el",
+        "rev": "3fee71ceefac71ba55eb34829d7e94bb3df37cee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alphapapa",
+        "repo": "ts.el",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
