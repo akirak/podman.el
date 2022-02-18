@@ -1,43 +1,50 @@
-name: 'package-lint'
-on: { push: { paths: [ '**.el' ] } }
+name: package-lint
+'on':
+  push:
+    # paths:
+    # - '**.el'
 jobs:
   lint:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        emacs_version: ["snapshot"]
+        emacs_version:
+        - snapshot
+    runs-on: ubuntu-latest
     steps:
     - uses: purcell/setup-emacs@master
       with:
         version: ${{ matrix.emacs_version }}
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        cat <(jq -r '.nodes.root.inputs | map(.) | .[]' .nomake/flake.lock) \
-            <(jq -r 'keys | .[]' .nomake/archive.lock) \
-            <(echo 'package-lint') \
-            | xargs emacs -batch -l package --eval \
-            "(progn
-                (push '(\"melpa\" . \"https://melpa.org/packages/\")
-                      package-archives)
-                (package-initialize)
-                (when command-line-args-left
-                  (package-refresh-contents))
-                (dolist (package-name command-line-args-left)
-                  (let ((package (intern package-name)))
-                     (when (and package
-                                (not (memq package
-                                           '(podman))))
-                       (package-install (cadr (assq package 
-                                                    package-archive-contents)))))))"
-    - name: Byte-compile
-      if: ${{ true }}
-      run: |
-        emacs -batch -l bytecomp -l package --eval "(push '(\"melpa\" . \"https://melpa.org/packages/\") package-archives)" --eval "(package-initialize)" -L . \
+    - run: echo LOCAL_PACKAGES="podman" >> $GITHUB_ENV
+    - run: |
+        tmp=$(mktemp)
+        cat > $tmp <<LISP
+        (progn
+          (require 'package)
+          (push '("melpa" . "https://melpa.org/packages/")
+                package-archives)
+          (package-initialize))
+        LISP
+        echo EMACS="emacs -l $tmp -L ." >> $GITHUB_ENV
+      name: Set the arguments
+    - run: " packages=$(mktemp)\n echo -n \"Installed packages: \"\n cat <(jq -r '.nodes.root.inputs
+        | map(.) | .[]' .nomake/flake.lock) \\\n   <(jq -r 'keys | .[]' .nomake/archive.lock)
+        \\\n   <(echo 'package-lint') \\\n   | tee \"$packages\" | xargs echo\n\n
+        script=$(mktemp)\n cat > $script <<LISP\n (progn\n   (when command-line-args-left\n
+        \    (package-refresh-contents))\n   (dolist (package-name command-line-args-left)\n
+        \    (let ((package (intern package-name)))\n        (when (and package\n
+        \                  (not (memq package '(${LOCAL_PACKAGES}))))\n        (package-install
+        (cadr (assq package \n                                     package-archive-contents)))))))\nLISP\n\nxargs
+        $EMACS -batch -l \"$script\" < \"$packages\"\n"
+      name: Install dependencies
+    - run: |
+        $EMACS -batch -l bytecomp \
           --eval "(setq byte-compile-error-on-warn t)" \
           -f batch-byte-compile 'podman-core.el' 'podman-pod.el' 'podman-utils.el' 'podman.el'
-    - run: |
-        emacs -l package --eval "(push '(\"melpa\" . \"https://melpa.org/packages/\") package-archives)" --eval "(package-initialize)" -L . -batch -l package-lint \
+      name: Byte-compile
+      if: ${{ true }}
+    - run: |-
+        $EMACS  -batch -l package-lint \
           --eval "(setq package-lint-main-file \"podman.el\")" \
           -f package-lint-batch-and-exit 'podman-core.el' 'podman-pod.el' 'podman-utils.el' 'podman.el'
       name: Run package-lint
