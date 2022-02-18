@@ -7,21 +7,25 @@
       flake = false;
     };
 
-    elinter = {
-      url = "github:akirak/elinter/v5";
+    nomake = {
+      url = "github:akirak/nomake";
       inputs.melpa.follows = "melpa";
     };
   };
 
   outputs =
     { self
-    , elinter
+    , nomake
     , ...
     } @ inputs:
-    elinter.lib.mkFlake {
+    nomake.lib.mkFlake {
       src = ./.;
       localPackages = [
         "podman"
       ];
-    };
+ 
+      github.lint = {
+        compile = true;
+      };
+   };
 }
