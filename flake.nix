@@ -8,7 +8,7 @@
     };
 
     nomake = {
-      url = "github:akirak/nomake";
+      url = "github:emacs-twist/nomake";
       inputs.melpa.follows = "melpa";
     };
   };
